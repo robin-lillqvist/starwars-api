@@ -8,13 +8,17 @@ import {
   Typography,
   Stack,
   Pagination,
-  CircularProgress,
+  CardActions,
   Box,
+  Button,
   Skeleton,
 } from "@mui/material";
 import styles from "./StarshipList.module.css";
+import SkeletonComponent from "./SkeletonComponent";
+import { useRouter } from "next/navigation";
 
 const StarshipList = () => {
+  const router = useRouter();
   const [starships, setStarships] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
@@ -39,6 +43,7 @@ const StarshipList = () => {
           `https://swapi.dev/api/starships/?page=${page}`
         );
         const data = await res.json();
+        console.log(data);
         allStarships = allStarships.concat(data.results);
       }
 
@@ -59,42 +64,43 @@ const StarshipList = () => {
   if (loading) {
     return (
       <div className={styles.loading}>
-        {/*         <CircularProgress /> */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            maxWidth: 800,
-          }}>
-          <Skeleton
-            animation='wave'
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-              maxWidth: 800,
-            }}>
-            <Card
-              sx={{
-                width: "100%",
-                maxWidth: 800,
-              }}>
-              <CardContent>
-                <Typography variant='h1'>Loading</Typography>
-                <Typography color='textSecondary'>Loading</Typography>
-                <Typography color='textSecondary'>Loading</Typography>
-                <Typography color='textSecondary'>Loading</Typography>
-              </CardContent>
-            </Card>
-          </Skeleton>
-        </Box>
+        <SkeletonComponent />
       </div>
     );
   }
 
   return (
     <>
+      <Stack container spacing={2} sx={{ marginTop: 2 }}>
+        {selectedStarships.map((starship, index) => {
+          // Extract the ID from the starship URL
+          const id = starship.url.split("/").filter(Boolean).pop();
+          return (
+            <Card>
+              <CardContent>
+                <div></div>
+                <Typography variant='h5'>{starship.name}</Typography>
+                <Typography color='textSecondary'>
+                  <strong>Manufacturer:</strong> {starship.manufacturer}
+                </Typography>
+                <Typography color='textSecondary'>
+                  <strong>Crew:</strong> {starship.crew}
+                </Typography>
+                <Typography color='textSecondary'>
+                  <strong>Created:</strong>
+                  {new Date(starship.created).toLocaleDateString()}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <a href={`/starships/${id}`}>Go to ship</a>
+                <Button onClick={() => router.push(`/starships/${index + 1}`)}>
+                  Go to ship
+                </Button>
+              </CardActions>
+            </Card>
+          );
+        })}
+      </Stack>
       <Box
         sx={{
           display: "flex",
@@ -115,26 +121,6 @@ const StarshipList = () => {
           }}
         />
       </Box>
-
-      <Stack container spacing={2} sx={{ marginTop: 2 }}>
-        {selectedStarships.map((starship) => (
-          <Card>
-            <CardContent>
-              <Typography variant='h5'>{starship.name}</Typography>
-              <Typography color='textSecondary'>
-                <strong>Manufacturer:</strong> {starship.manufacturer}
-              </Typography>
-              <Typography color='textSecondary'>
-                <strong>Crew:</strong> {starship.crew}
-              </Typography>
-              <Typography color='textSecondary'>
-                <strong>Created:</strong>{" "}
-                {new Date(starship.created).toLocaleDateString()}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
-      </Stack>
     </>
   );
 };
