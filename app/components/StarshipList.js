@@ -107,7 +107,6 @@ const StarshipList = () => {
           display: "flex",
           justifyContent: "center",
           marginTop: 2,
-          maxWidth: 800,
         }}>
         <Pagination
           count={Math.ceil(starships.length / itemsPerPage)}

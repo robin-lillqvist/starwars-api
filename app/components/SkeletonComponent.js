@@ -1,25 +1,16 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  Skeleton,
-  Pagination,
-} from "@mui/material";
+import { Box, Skeleton, Pagination } from "@mui/material";
 
 const SkeletonComponent = () => {
   return (
     <>
-      <Skeleton width='100%' maxWidth='800' height={200} />
-
+      <Skeleton width='100%' height={200} />
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
           marginTop: 2,
-          maxWidth: 800,
         }}>
         <Pagination
           showFirstButton

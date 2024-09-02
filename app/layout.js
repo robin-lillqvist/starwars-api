@@ -9,9 +9,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className='starry-sky'>
+      <body>
         <h1>Star Wars Starships</h1>
-
         {children}
       </body>
     </html>
