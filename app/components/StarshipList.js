@@ -12,7 +12,6 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import styles from "./StarshipList.module.css";
 import SkeletonComponent from "./SkeletonComponent";
 import { useRouter } from "next/navigation";
 
@@ -60,11 +59,7 @@ const StarshipList = () => {
   );
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <SkeletonComponent />
-      </div>
-    );
+    return <SkeletonComponent />;
   }
 
   return (

@@ -5,7 +5,11 @@ import { Box, Skeleton, Pagination } from "@mui/material";
 const SkeletonComponent = () => {
   return (
     <>
-      <Skeleton width='100%' height={200} />
+      <Skeleton
+        height={200}
+        sx={{ backgroundColor: "#222831" }}
+        variant='rectangular'
+      />
       <Box
         sx={{
           display: "flex",
@@ -18,6 +22,7 @@ const SkeletonComponent = () => {
           shape='rounded'
           variant='outlined'
           color='secondary'
+          disabled={true}
         />
       </Box>
     </>
