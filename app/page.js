@@ -6,9 +6,7 @@ import StarshipList from "./components/StarshipList";
 export default function Home() {
   return (
     <Container>
-      <Typography variant='h4' component='h1' gutterBottom>
-        Star Wars Starships
-      </Typography>
+      <h1>Star Wars Starships</h1>
       <StarshipList />
     </Container>
   );

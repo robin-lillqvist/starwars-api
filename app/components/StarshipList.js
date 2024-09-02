@@ -9,7 +9,10 @@ import {
   Stack,
   Pagination,
   CircularProgress,
+  Box,
+  Skeleton,
 } from "@mui/material";
+import styles from "./StarshipList.module.css";
 
 const StarshipList = () => {
   const [starships, setStarships] = useState([]);
@@ -54,38 +57,85 @@ const StarshipList = () => {
   );
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <div className={styles.loading}>
+        {/*         <CircularProgress /> */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            maxWidth: 800,
+          }}>
+          <Skeleton
+            animation='wave'
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              maxWidth: 800,
+            }}>
+            <Card
+              sx={{
+                width: "100%",
+                maxWidth: 800,
+              }}>
+              <CardContent>
+                <Typography variant='h1'>Loading</Typography>
+                <Typography color='textSecondary'>Loading</Typography>
+                <Typography color='textSecondary'>Loading</Typography>
+                <Typography color='textSecondary'>Loading</Typography>
+              </CardContent>
+            </Card>
+          </Skeleton>
+        </Box>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <Pagination
-        count={Math.ceil(starships.length / itemsPerPage)}
-        page={currentPage}
-        onChange={(event, value) => {
-          window.history.pushState(null, "", `?page=${value}`);
-        }}
-        sx={{ marginTop: 2 }}
-      />
-      <Stack container spacing={2}>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 2,
+          maxWidth: 800,
+        }}>
+        <Pagination
+          count={Math.ceil(starships.length / itemsPerPage)}
+          page={currentPage}
+          showFirstButton
+          showLastButton
+          shape='rounded'
+          variant='outlined'
+          color='secondary'
+          onChange={(event, value) => {
+            window.history.pushState(null, "", `?page=${value}`);
+          }}
+        />
+      </Box>
+
+      <Stack container spacing={2} sx={{ marginTop: 2 }}>
         {selectedStarships.map((starship) => (
           <Card>
             <CardContent>
-              <Typography variant='h6'>{starship.name}</Typography>
+              <Typography variant='h5'>{starship.name}</Typography>
               <Typography color='textSecondary'>
-                Manufacturer: {starship.manufacturer}
+                <strong>Manufacturer:</strong> {starship.manufacturer}
               </Typography>
               <Typography color='textSecondary'>
-                Crew: {starship.crew}
+                <strong>Crew:</strong> {starship.crew}
               </Typography>
               <Typography color='textSecondary'>
-                Created: {new Date(starship.created).toLocaleDateString()}
+                <strong>Created:</strong>{" "}
+                {new Date(starship.created).toLocaleDateString()}
               </Typography>
             </CardContent>
           </Card>
         ))}
       </Stack>
-    </div>
+    </>
   );
 };
 
