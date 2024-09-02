@@ -93,7 +93,7 @@ const StarshipList = () => {
               </CardContent>
               <CardActions>
                 <Button
-                  onClick={() => router.push(`/starships/${index + 1}`)}
+                  onClick={() => router.push(`/starships/${id}`)}
                   sx={{ color: "#B55400", fontWeight: "bold" }}>
                   Go to ship
                 </Button>
