@@ -11,7 +11,6 @@ import {
   CardActions,
   Box,
   Button,
-  Skeleton,
 } from "@mui/material";
 import styles from "./StarshipList.module.css";
 import SkeletonComponent from "./SkeletonComponent";
@@ -23,7 +22,6 @@ const StarshipList = () => {
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
-
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -71,29 +69,32 @@ const StarshipList = () => {
 
   return (
     <>
-      <Stack container spacing={2} sx={{ marginTop: 2 }}>
+      <Stack container spacing={2}>
         {selectedStarships.map((starship, index) => {
           // Extract the ID from the starship URL
           const id = starship.url.split("/").filter(Boolean).pop();
           return (
-            <Card>
+            <Card sx={{ backgroundColor: "#222831" }}>
               <CardContent>
                 <div></div>
-                <Typography variant='h5'>{starship.name}</Typography>
-                <Typography color='textSecondary'>
+                <Typography variant='h5' sx={{ color: "#B55400" }}>
+                  {starship.name}
+                </Typography>
+                <Typography sx={{ color: "#EEEEEE" }}>
                   <strong>Manufacturer:</strong> {starship.manufacturer}
                 </Typography>
-                <Typography color='textSecondary'>
+                <Typography sx={{ color: "#EEEEEE" }}>
                   <strong>Crew:</strong> {starship.crew}
                 </Typography>
-                <Typography color='textSecondary'>
-                  <strong>Created:</strong>
+                <Typography sx={{ color: "#EEEEEE" }}>
+                  <strong>Created: </strong>
                   {new Date(starship.created).toLocaleDateString()}
                 </Typography>
               </CardContent>
               <CardActions>
-                <a href={`/starships/${id}`}>Go to ship</a>
-                <Button onClick={() => router.push(`/starships/${index + 1}`)}>
+                <Button
+                  onClick={() => router.push(`/starships/${index + 1}`)}
+                  sx={{ color: "#B55400", fontWeight: "bold" }}>
                   Go to ship
                 </Button>
               </CardActions>

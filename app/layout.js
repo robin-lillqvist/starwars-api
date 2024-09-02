@@ -1,7 +1,5 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Typography } from "@mui/material";
 
 export const metadata = {
   title: "Create Next App",
@@ -11,8 +9,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className='starry-sky'>
         <h1>Star Wars Starships</h1>
+
         {children}
       </body>
     </html>

@@ -1,6 +1,6 @@
-// pages/index.js
+"use client";
 import React from "react";
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import StarshipList from "./components/StarshipList";
 
 export default function Home() {
