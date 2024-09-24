@@ -1,17 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Stack,
-  Pagination,
-  CardActions,
-  Box,
-  Button,
-} from "@mui/material";
+import { Card, CardContent, Typography, Stack, Pagination, CardActions, Box, Button } from "@mui/material";
 import SkeletonComponent from "./SkeletonComponent";
 import { useRouter } from "next/navigation";
 
@@ -36,9 +27,7 @@ const StarshipList = () => {
       // Fetch remaining pages based on the count
       const totalPages = Math.ceil(data.count / 10);
       for (let page = 2; page <= totalPages; page++) {
-        const res = await fetch(
-          `https://swapi.dev/api/starships/?page=${page}`
-        );
+        const res = await fetch(`https://swapi.dev/api/starships/?page=${page}`);
         const data = await res.json();
         console.log(data);
         allStarships = allStarships.concat(data.results);
@@ -53,10 +42,7 @@ const StarshipList = () => {
 
   // Calculate the starships to display on the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const selectedStarships = starships.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const selectedStarships = starships.slice(startIndex, startIndex + itemsPerPage);
 
   if (loading) {
     return <SkeletonComponent />;
@@ -69,7 +55,7 @@ const StarshipList = () => {
           // Extract the ID from the starship URL
           const id = starship.url.split("/").filter(Boolean).pop();
           return (
-            <Card sx={{ backgroundColor: "#222831" }}>
+            <Card sx={{ backgroundColor: "#222831" }} key={index}>
               <CardContent>
                 <div></div>
                 <Typography variant='h5' sx={{ color: "#B55400" }}>
@@ -87,9 +73,7 @@ const StarshipList = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button
-                  onClick={() => router.push(`/starships/${id}`)}
-                  sx={{ color: "#B55400", fontWeight: "bold" }}>
+                <Button onClick={() => router.push(`/starships/${id}`)} sx={{ color: "#B55400", fontWeight: "bold" }}>
                   Go to ship
                 </Button>
               </CardActions>
@@ -102,7 +86,8 @@ const StarshipList = () => {
           display: "flex",
           justifyContent: "center",
           marginTop: 2,
-        }}>
+        }}
+      >
         <Pagination
           count={Math.ceil(starships.length / itemsPerPage)}
           page={currentPage}
@@ -120,4 +105,11 @@ const StarshipList = () => {
   );
 };
 
-export default StarshipList;
+// Wrap the component in Suspense when exporting
+export default function StarshipListWrapper() {
+  return (
+    <Suspense fallback={<SkeletonComponent />}>
+      <StarshipList />
+    </Suspense>
+  );
+}
